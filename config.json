@@ -1,0 +1,10 @@
+{
+	"LicenseKey" : "abc",
+	"AppName" : "go-lock-cache",
+	"Dsn" : "a@b.com",
+	"LogFile" : "server.log",
+	"Broker" : "localhost",
+	"Client" : "localhost",
+	"RedisUrl" : "localhost:6379",
+	"RedisPassword" : ""
+}
