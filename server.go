@@ -48,7 +48,7 @@ func main() {
 	router := mux.NewRouter()
 	n := negroni.New()
 	n.Use(negroni.NewLogger(LogFileObj))
-	router.HandleFunc("/", handlers.HandleIndex)
+	router.HandleFunc("/data", handlers.HandleIndex).Methods("POST")
 	n.UseHandler(router)
 	ServerLogger.Println("Starting the Server")
 	http.ListenAndServe("0.0.0.0:8081", n)

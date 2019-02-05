@@ -1,28 +1,31 @@
 package handlers
 
 import (
-	"fmt"
+	"encoding/json"
 	_ "github.com/gorilla/mux"
-	"go-lock-cache/redis"
+	"go-lock-cache/helpers"
 	"net/http"
 )
 
 type ResponseStruct struct {
 	Message string
+	Data    map[string]interface{}
 }
 
 func HandleIndex(w http.ResponseWriter, r *http.Request) {
 	//ServerLogger.Println("thank god")
-	lock, err := redis.AcquireLock("alok", "anand", 100)
-	if err != nil {
-		fmt.Println("failed to acquire lock")
-	} else {
-		fmt.Println(lock)
-	}
-	if lock {
-		fmt.Println("trying to release lock")
-		redis.ReleaseLock("alok", "nand")
-	}
-	fmt.Fprint(w, "Welcome! \n")
+	var request map[string]interface{};
+	var result map[string]interface{};
+	json.NewDecoder(r.Body).Decode(&request)
 
+
+
+	result = helpers.GetWeather(request)
+
+	js, err := json.Marshal(result)
+	if err != nil {
+		panic(err)
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
